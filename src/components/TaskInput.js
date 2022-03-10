@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import $ from 'jquery';
 import '../index.css';
+import Fade from 'react-reveal/Fade';
 
 const TaskInput = (props) => {
     const [enteredTask, setEnteredTask] = useState('');
@@ -42,6 +43,7 @@ const TaskInput = (props) => {
     }
 
     return(
+        <Fade>
             <form onSubmit={submitHandler} className="form flex flex-row items-center w-full">
                 {/* <input type="checkbox" className="w-4 h-4 rounded-full focus:ring-1" /> */}
                 <button onClick={closeTaskHandler} type="button" className="bg-white rounded-full items-center justify-center text-gray-500 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500">
@@ -58,6 +60,7 @@ const TaskInput = (props) => {
                     <button type="submit"/>
                  </div>
             </form>
+        </Fade>
     );
 };
 

@@ -65,6 +65,7 @@ function App() {
     setAllTasks((prevState) => {
       return [...prevState, taskData]
     });
+
     closeTaskHandler();
   };
 
@@ -101,16 +102,20 @@ function App() {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-4 m-5 justify-center">
-      <div><h1 className="text-3xl font-bold font-sans">My Tasks</h1></div>
-      <TaskDisplay tasks={allTasks} onTaskDelete={taskDeleteHandler} onTaskChecked={taskCheckedHandler}></TaskDisplay>
-      {newTask}
-
-      <div className="fixed right-5 bottom-5">
-        <button 
-        onClick={newTaskHandler}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">+
-        </button>
+    <div className="flex flex-col place-content-center">
+      <div className="h-3/4 w-3/4 m-auto rounded-lg relative border-0 shadow-md p-5">
+        <div className="grid grid-cols-1 gap-5">
+          <div><h1 className="text-3xl font-bold font-sans">My Tasks</h1></div>
+          <TaskDisplay tasks={allTasks} onTaskDelete={taskDeleteHandler} onTaskChecked={taskCheckedHandler}></TaskDisplay>
+          {newTask}
+        </div>
+        <div className="absolute bottom-2 right-2">
+            <button 
+            onClick={newTaskHandler}
+            className="text-white font-bold py-2 px-4 rounded-full m-3
+            transition ease-in-out delay-150 bg-black hover:scale-110 hover:bg-blue-500 duration-300">+
+            </button>
+        </div>
       </div>
     </div>
   );

@@ -16,7 +16,7 @@ const TaskList = (props) => {
         if (props.tasks.length > 0){
             let key = 0;
             taskContent = props.tasks.map(data =>
-            <TaskItem onTaskChecked={taskCheckedHandler} onTaskDelete={taskDeleteHandler} key={key += 1} taskStatus ={data.taskStatus} taskId = {data.id} taskName = {data.taskName} taskDescription = {data.taskDescription}></TaskItem>)
+            <TaskItem onTaskChecked={taskCheckedHandler} onTaskDelete={taskDeleteHandler} key={data.id} taskStatus ={data.taskStatus} taskId = {data.id} taskName = {data.taskName} taskDescription = {data.taskDescription}></TaskItem>)
         }
     };
 

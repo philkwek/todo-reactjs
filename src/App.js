@@ -48,11 +48,11 @@ function App() {
     });
   };
 
-  const closeTaskHandler = () => {
+  const CloseTaskHandler = () => {
     setNewTask();
   }
 
-  const saveTaskHandler = (event) => {
+  const SaveTaskHandler = (event) => {
     const taskData = event;
     //save to cloud
     setAllTasks((prevState) => {
@@ -62,11 +62,11 @@ function App() {
     closeTaskHandler();
   };
 
-  const newTaskHandler = () => {
-    setNewTask(<TaskInput closeNewTask={closeTaskHandler} onSaveTask={saveTaskHandler}/>)
+  const NewTaskHandler = () => {
+    setNewTask(<TaskInput closeNewTask={closeTaskHandler} onSaveTask={SaveTaskHandler}/>)
   };
 
-  const taskCheckedHandler = (event) => { //updates task status
+  const TaskCheckedHandler = (event) => { //updates task status
     //updates server
     $.ajax({
       url:"https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/tasks/" + event.taskId,
@@ -78,7 +78,7 @@ function App() {
     });
   };
 
-  const taskDeleteHandler = (taskId) => {
+  const TaskDeleteHandler = (taskId) => {
     //delete task from client
     const newData = allTasks.filter(function(task){
       return task.id != taskId;
@@ -104,13 +104,13 @@ function App() {
         <div className="grid grid-cols-1 gap-5">
           <div><h1 className="text-3xl font-bold font-sans">My Tasks</h1></div>
           <TaskDisplay tasks={allTasks} 
-          onTaskDelete={taskDeleteHandler} onTaskChecked={taskCheckedHandler} onPriorityUpdate={PriorityUpdateHandler}> 
+          onTaskDelete={TaskDeleteHandler} onTaskChecked={TaskCheckedHandler} onPriorityUpdate={PriorityUpdateHandler}> 
           </TaskDisplay>
           {newTask}
         </div>
         <div className="absolute bottom-2 right-2">
             <button 
-            onClick={newTaskHandler}
+            onClick={NewTaskHandler}
             className="text-white font-bold py-2 px-4 rounded-full m-3
             transition ease-in-out delay-150 bg-black hover:scale-110 hover:bg-blue-500 duration-300">+
             </button>

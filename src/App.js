@@ -59,11 +59,11 @@ function App() {
       return [...prevState, taskData]
     });
 
-    closeTaskHandler();
+    CloseTaskHandler();
   };
 
   const NewTaskHandler = () => {
-    setNewTask(<TaskInput closeNewTask={closeTaskHandler} onSaveTask={SaveTaskHandler}/>)
+    setNewTask(<TaskInput closeNewTask={CloseTaskHandler} onSaveTask={SaveTaskHandler}/>)
   };
 
   const TaskCheckedHandler = (event) => { //updates task status

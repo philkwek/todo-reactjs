@@ -100,10 +100,10 @@ function App() {
       success: function () {console.log("Delete success")}
     });
   }
-
+  //md:h-3/4 md:w-3/4 sm:w-full sm:h-full
   return (
     <div className="flex flex-col place-content-center">
-      <div className="h-3/4 w-3/4 m-auto rounded-lg relative border-0 shadow-md p-5">
+      <div className="w-full h-full sm:w-9/10 sm:h-4/5 md:h-3/6 md:w-3/6 lg:w-2/6 lg:h-2/6 m-auto rounded-lg relative border-0 shadow-md p-5">
         <div className="grid grid-cols-1 gap-5">
           <div><h1 className="text-3xl font-bold font-sans">My Tasks</h1></div>
           <TaskDisplay tasks={allTasks} onTaskDelete={taskDeleteHandler} onTaskChecked={taskCheckedHandler}></TaskDisplay>

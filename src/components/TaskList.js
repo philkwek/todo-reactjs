@@ -4,19 +4,25 @@ import '../index.css';
 const TaskList = (props) => {
     let taskContent = <h1>No Tasks!</h1>;
 
-    const taskCheckedHandler = (event) => {
+    const TaskCheckedHandler = (event) => {
         props.onTaskChecked(event);
     };
 
-    const taskDeleteHandler = (taskId) => {
+    const TaskDeleteHandler = (taskId) => {
         props.onTaskDelete(taskId);
+    }
+
+    const PriorityUpdateHandler =  (data) => {
+        props.onPriorityUpdate(data);
     }
 
     if(props.tasks){
         if (props.tasks.length > 0){
             let key = 0;
             taskContent = props.tasks.map(data =>
-            <TaskItem onTaskChecked={taskCheckedHandler} onTaskDelete={taskDeleteHandler} key={data.id} taskStatus ={data.taskStatus} taskId = {data.id} taskName = {data.taskName} taskDescription = {data.taskDescription}></TaskItem>)
+            <TaskItem onTaskChecked={TaskCheckedHandler} onTaskDelete={TaskDeleteHandler} onPriorityUpdate={PriorityUpdateHandler}
+            key={data.id} taskPriority={data.taskPriority} taskStatus ={data.taskStatus} 
+            taskId = {data.id} taskName = {data.taskName} taskDescription = {data.taskDescription}></TaskItem>)
         }
     };
 

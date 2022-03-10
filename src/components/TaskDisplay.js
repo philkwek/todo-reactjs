@@ -3,17 +3,22 @@ import TaskList from './TaskList.js';
 
 const TaskDisplay = (props) => {
 
-    const taskCheckHandler = (event) => {
+    const TaskCheckHandler = (event) => {
         props.onTaskChecked(event);
     }
 
-    const taskDeleteHandler = (taskId) => {
+    const TaskDeleteHandler = (taskId) => {
         props.onTaskDelete(taskId);
+    }
+
+    const PriorityUpdateHandler = (data) => {
+        props.onPriorityUpdate(data);
     }
 
     return (
         <div className="flex flex-row items-center">
-            <TaskList onTaskDelete={taskDeleteHandler} onTaskChecked={taskCheckHandler} tasks={props.tasks} />
+            <TaskList onTaskDelete={TaskDeleteHandler} onTaskChecked={TaskCheckHandler} onPriorityUpdate={PriorityUpdateHandler}
+            tasks={props.tasks} />
         </div>
     );
 };

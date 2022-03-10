@@ -6,50 +6,43 @@ import TaskInput from './components/TaskInput.js';
 
 const testData = [
   {
-      "id": "4cvQmibYdm1mN8A4uifT",
-      "taskName": "Plan Event",
+      "id": "7VmNV41JNwdEOMI7gAbj",
+      "taskStatus": "1",
+      "userId": "testing",
       "taskDescription": "",
-      "taskStatus": "true",
-      "userId": "HYOePPQ2ZVo1P0G7lch0"
+      "taskPriority": 2,
+      "taskName": "Hello again"
   },
   {
-      "id": "SogFb3AqceHpC75jXhS2",
-      "taskDescription": "get milk, eggs, flour and sugar for baking",
-      "userId": "otherId",
-      "taskName": "Get Groceries",
-      "taskStatus": "false"
-  },
-  {
-      "id": "mp0blgkCxnpKS3zXYQUr",
-      "taskName": "Read Bible",
-      "taskDescription": "Matthew 5",
+      "id": "I1vHSi6lsGT15nfkLdgk",
+      "taskDescription": "",
       "userId": "testing",
-      "taskStatus": "false"
+      "taskStatus": "0",
+      "taskName": "Buy Milk!",
+      "taskPriority": "0"
   },
   {
-      "id": "pYEe0XRKgOIvAZbQAqP7",
-      "taskName": "Finish Coding Project",
-      "taskStatus": "false",
-      "userId": "HYOePPQ2ZVo1P0G7lch0",
+      "id": "kwMc922hZ1YvxsAYK93R",
+      "taskStatus": "2",
+      "taskName": "Hello!",
+      "taskPriority": 0,
+      "userId": "testing",
       "taskDescription": ""
-  },
-  {
-      "id": "y16JDui5yWMmJXvhTTmU",
-      "userId": "testing",
-      "taskStatus": "false",
-      "taskName": "Testing",
-      "taskDescription": "Testing123"
   }
-]
+];
 
 function App() {
   const [newTask, setNewTask] = useState('');
   const [allTasks, setAllTasks] = useState('');
 
-  //Uncomment when uploading to site
-  if (allTasks === ''){
+  if (allTasks === ''){ //gets tasks from site
     $.get("https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/tasks", function(data, status){
-      const tasks = JSON.parse(data);
+      let tasks = JSON.parse(data);
+
+      tasks.sort(function(a, b){ //sorts list by order of priority
+        return b.taskPriority - a.taskPriority;
+      });
+
       setAllTasks(tasks);
       console.log('Fetched Data');
     });
@@ -74,6 +67,7 @@ function App() {
   };
 
   const taskCheckedHandler = (event) => { //updates task status
+    //updates server
     $.ajax({
       url:"https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/tasks/" + event.taskId,
       type:"PUT",
@@ -100,13 +94,18 @@ function App() {
       success: function () {console.log("Delete success")}
     });
   }
-  //md:h-3/4 md:w-3/4 sm:w-full sm:h-full
+
+  const PriorityUpdateHandler = (data) => { //gives data of task and it's new priority
+  };
+
   return (
     <div className="flex flex-col place-content-center">
       <div className="w-full h-full sm:w-9/10 sm:h-4/5 md:h-4/6 md:w-3/6 lg:w-2/6 lg:h-3/6 m-auto rounded-lg relative border-0 shadow-md p-5">
         <div className="grid grid-cols-1 gap-5">
           <div><h1 className="text-3xl font-bold font-sans">My Tasks</h1></div>
-          <TaskDisplay tasks={allTasks} onTaskDelete={taskDeleteHandler} onTaskChecked={taskCheckedHandler}></TaskDisplay>
+          <TaskDisplay tasks={allTasks} 
+          onTaskDelete={taskDeleteHandler} onTaskChecked={taskCheckedHandler} onPriorityUpdate={PriorityUpdateHandler}> 
+          </TaskDisplay>
           {newTask}
         </div>
         <div className="absolute bottom-2 right-2">

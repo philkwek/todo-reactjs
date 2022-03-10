@@ -25,7 +25,7 @@ const TaskInput = (props) => {
         const taskData = {
             taskName: enteredTask,
             taskDescription: enteredTaskDetails,
-            taskStatus: "false",
+            taskStatus: 0,
             userId: "testing"
         };
 

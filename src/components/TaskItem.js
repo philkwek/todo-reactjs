@@ -1,47 +1,32 @@
 import React, {useState, useEffect, useRef} from 'react';
-import $ from 'jquery';
 import '../index.css';
 import Fade from 'react-reveal/Fade';
 import {CheckIcon, CogIcon} from '@heroicons/react/solid'
+
+const btnStates = [
+    <div className="w-5 h-5 rounded-full border-2 border-gray-500"></div>, //undone task
+    <CogIcon className="w-5 h-5 text-white bg-yellow-400 rounded-full"/>, //in-progress task
+    <CheckIcon className="w-5 h-5 text-white bg-green-700 rounded-full"/>  //done task
+]
 
 const TaskItem = (props) => {
     const firstRender = useRef(false);
 
     const [closeBtnState, setCloseBtnState] = useState('');
-    const [taskBtnState, setTaskBtnState] = useState(
-        <div className="w-5 h-5 rounded-full border-2 border-gray-500"></div>
-    );
-    const [taskStatusNo, setTaskStatusNo] = useState(0);
-
-    let originalStatus = false;
-
-    if (props.taskStatus === "true" || props.taskStatus === true){ //checks taskStatus and sets checkbox accordingly
-        originalStatus = true;
-    }
-
-    const [taskStatus, setTaskStatus] = useState(originalStatus)
-
-    const TaskCheckHandler = (event) => { //checks task as done or undone
-        setTaskStatus(event.target.checked); 
-        const taskCheckData = {
-            taskId: props.taskId,
-            taskDone: event.target.checked
-        };
-        props.onTaskChecked(taskCheckData);
-    };
+    const [taskBtnState, setTaskBtnState] = useState(btnStates[props.taskStatus])
+    const [taskStatusNo, setTaskStatusNo] = useState(props.taskStatus);
 
     const ChangeStatusHandler = () => {
-
-        if (taskStatusNo === 0){
-            setTaskBtnState(<CogIcon className="w-5 h-5 text-white bg-yellow-400 rounded-full"/>);
+        if (taskStatusNo == 0){
+            setTaskBtnState(btnStates[1]);
             setTaskStatusNo(1);
 
-        } else if (taskStatusNo === 1){
-            setTaskBtnState(<CheckIcon className="w-5 h-5 text-white bg-green-700 rounded-full"/>);
+        } else if (taskStatusNo == 1){
+            setTaskBtnState(btnStates[2]);
             setTaskStatusNo(2);
 
-        } else if (taskStatusNo === 2){
-            setTaskBtnState(<div className="w-5 h-5 rounded-full border-2 border-gray-500"></div>);
+        } else if (taskStatusNo == 2){
+            setTaskBtnState(btnStates[0]);
             setTaskStatusNo(0);
         }
     }
@@ -83,7 +68,6 @@ const TaskItem = (props) => {
         <Fade>
             <li id={props.taskId} onDoubleClick={ToggleDeleteButton} className="flex flex-row items-center mb-5 w-full select-none">
                 {closeBtnState}
-                <input defaultChecked={taskStatus} type="checkbox" onChange={TaskCheckHandler} className="w-4 h-4 rounded-full focus:ring-1 ml-3" />
                 <button onClick={ChangeStatusHandler} className="w-5 h-5 rounded-full focus:ring-2 ml-3">
                     {taskBtnState}
                 </button>

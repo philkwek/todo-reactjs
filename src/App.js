@@ -74,15 +74,14 @@ function App() {
   };
 
   const taskCheckedHandler = (event) => { //updates task status
-    console.log(event);
-    // $.ajax({
-    //   url:"https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/tasks/" + event.taskId,
-    //   type:"PUT",
-    //   data: {
-    //     taskStatus: event.taskDone
-    //   },
-    //   success: function () {console.log("Put success")}
-    // });
+    $.ajax({
+      url:"https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/tasks/" + event.taskId,
+      type:"PUT",
+      data: {
+        taskStatus: event.taskDone
+      },
+      success: function () {console.log("Put success")}
+    });
   };
 
   const taskDeleteHandler = (taskId) => {

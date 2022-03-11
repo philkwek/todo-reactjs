@@ -7,11 +7,13 @@ const TaskHeader = (props) => {
         const tasks = props.tasks;
         let filteredTasks = [];
         if (filter != -1){
-            for (var i in tasks){
-                if (tasks[i].taskStatus == filter){
-                    filteredTasks.push(tasks[i]);
-                }
-            }
+            // for (var i in tasks){
+            //     if (tasks[i].taskStatus == filter){
+            //         filteredTasks.push(tasks[i]);
+            //     }
+            // }
+            console.log(tasks);
+            filteredTasks = tasks.filter(tasks => tasks.taskStatus == filter)
         } else {
             filteredTasks = tasks;
         }

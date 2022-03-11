@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import $ from "jquery";
 import '../index.css';
+import '../components/css/TaskItem.css';
 import Fade from 'react-reveal/Fade';
 import {CheckIcon, CogIcon} from '@heroicons/react/solid'
 
@@ -63,11 +64,6 @@ const TaskItem = (props) => {
             setTaskMenuState(
                 <Fade>
                     <div className="flex flex-row align-middle items-center">
-                        <select className="h-8 border-0 text-xs" defaultValue={taskPriority} onChange={TaskPriorityHandler}>
-                            <option value="0">!</option>
-                            <option value="1">!!</option>
-                            <option value="2">!!!</option>
-                        </select>
                         <button onClick={DeleteTaskHandler} type="button" 
                         className="ml-3 bg-white rounded-full items-center justify-center 
                         text-gray-500 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500 w-4 h-4">
@@ -81,34 +77,39 @@ const TaskItem = (props) => {
             )
         } else {
             setTaskMenuState('');
-            //update priority if there is a change 
-            if (taskPriority != props.taskPriority){
-                let newData = {
-                    taskPriority: taskPriority,
-                    taskDescription: props.taskDescription,
-                    taskName: props.taskName,
-                    taskStatus: taskStatusNo
-                }
-
-                //updates server
-                $.ajax({
-                    url:"https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/tasks/" + props.taskId,
-                    type:"PUT",
-                    data: newData,
-                    success: function () {
-                        console.log("Update success")
-                    }
-                });
-
-                newData = {
-                    ...newData,
-                    taskId: props.taskId
-                }
-                //updates client
-                props.onPriorityUpdate(newData);
-            };
         }
     }
+
+    const TaskUpdateHandler = () => {
+        //update priority if there is a change
+        if (taskPriority != props.taskPriority) {
+            let newData = {
+            taskPriority: taskPriority,
+            taskDescription: props.taskDescription,
+            taskName: props.taskName,
+            taskStatus: taskStatusNo,
+            };
+
+            //updates server
+            $.ajax({
+            url:
+                "https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/tasks/" +
+                props.taskId,
+            type: "PUT",
+            data: newData,
+            success: function () {
+                console.log("Update success");
+            },
+            });
+
+            newData = {
+            ...newData,
+            taskId: props.taskId,
+            };
+            //updates client
+            props.onPriorityUpdate(newData);
+        }
+    };
 
     return (
         <Fade>
@@ -117,6 +118,14 @@ const TaskItem = (props) => {
                 <button onClick={ChangeStatusHandler} className="w-5 h-5 rounded-full focus:ring-2 ml-3">
                     {taskBtnState}
                 </button>
+                <div>
+                    <select className="priority-list appearance-none h-8 border-0 text-xs text-center" 
+                    defaultValue={taskPriority} onChange={TaskPriorityHandler} onBlur={TaskUpdateHandler}>
+                        <option value="0">!</option>
+                        <option value="1">!!</option>
+                        <option value="2">!!!</option>
+                    </select>
+                </div>
                 <div className="ml-3">
                     <p className="text-base font-medium">{props.taskName}</p>
                     <p className="text-xs text-gray-500">{props.taskDescription}</p>

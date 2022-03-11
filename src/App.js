@@ -37,16 +37,38 @@ function App() {
 
   if (allTasks === ''){ //gets tasks from site
     $.get("https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/tasks", function(data, status){
-      let tasks = JSON.parse(data);
+      let taskData = JSON.parse(data);
 
-      tasks.sort(function(a, b){ //sorts list by order of priority
-        return b.taskPriority - a.taskPriority;
-      });
+      const sortedData = SortTasks(taskData);
 
-      setAllTasks(tasks);
+      setAllTasks(sortedData);
       console.log('Fetched Data');
     });
   };
+
+  const SortTasks = (tasks) => {
+    tasks.sort(function(a, b){ //sorts list by order of priority
+      return b.taskPriority - a.taskPriority;
+    });
+
+    tasks.sort(function(a,b){ //sorts list by order of status
+      if (a.taskStatus==2){
+        return -1
+      } else {
+        return 0
+      }
+    });
+
+    tasks.sort(function(a, b){ //sorts list by order of priority
+      if (a.taskStatus==2){
+        return b.taskPriority - a.taskPriority;
+      } else {
+        return 0;
+      }
+    });
+
+    return tasks;
+  }
 
   const CloseTaskHandler = () => {
     setNewTask();

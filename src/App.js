@@ -3,6 +3,7 @@ import $ from 'jquery';
 import './index.css';
 import TaskDisplay from './components/TaskDisplay.js'
 import TaskInput from './components/TaskInput.js';
+import TaskHeader from './components/TaskHeader.js';
 
 const testData = [
   {
@@ -117,6 +118,10 @@ function App() {
     });
   }
 
+  const TaskFilterHandler = (tasks) => {
+    setAllTasks(tasks);
+  };
+
   const PriorityUpdateHandler = (data) => { //gives data of task and it's new priority
   };
 
@@ -124,7 +129,7 @@ function App() {
     <div className="flex flex-col place-content-center">
       <div className="w-full h-full sm:w-9/10 sm:h-4/5 md:h-4/6 md:w-3/6 lg:w-2/6 lg:h-3/6 m-auto rounded-lg relative border-0 shadow-md p-5">
         <div className="grid grid-cols-1 gap-5">
-          <div><h1 className="text-3xl font-bold font-sans">My Tasks</h1></div>
+          <TaskHeader tasks={allTasks} onTaskFilter={TaskFilterHandler} />
           <TaskDisplay tasks={allTasks} 
           onTaskDelete={TaskDeleteHandler} onTaskChecked={TaskCheckedHandler} onPriorityUpdate={PriorityUpdateHandler}> 
           </TaskDisplay>

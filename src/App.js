@@ -4,6 +4,8 @@ import './index.css';
 import TaskDisplay from './components/TaskDisplay.js'
 import TaskInput from './components/TaskInput.js';
 import TaskHeader from './components/TaskHeader.js';
+import Account from './components/Account.js';
+import {UserIcon} from '@heroicons/react/solid'
 
 const testData = [
   {
@@ -35,6 +37,10 @@ const testData = [
 function App() {
   const [newTask, setNewTask] = useState('');
   const [allTasks, setAllTasks] = useState('');
+
+  const [username, setUsername] = useState('');
+  const [accountPage, setAccountPage] = useState('');
+  const [accountClassName, setAccountClassName] = useState("w-full h-full sm:w-9/10 sm:h-4/5 md:h-4/6 md:w-3/6 lg:w-2/6 lg:h-3/6 m-auto rounded-lg relative border-0 shadow-md p-5")
 
   if (allTasks === ''){ //gets tasks from site
     $.get("https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/tasks", function(data, status){
@@ -80,7 +86,7 @@ function App() {
     setAllTasks((prevState) => {
       return [...prevState, taskData]
     });
-
+    SortTasks(allTasks);
     CloseTaskHandler();
   };
 
@@ -117,26 +123,52 @@ function App() {
     });
   }
 
-  const PriorityUpdateHandler = (data) => { //gives data of task and it's new priority
+  const PriorityUpdateHandler = (data) => { 
+    //gives data of task and it's new priority
   };
+
+  const CloseAccountHandler = () =>{ 
+    setAccountPage('');
+    setAccountClassName("w-full h-full sm:w-9/10 sm:h-4/5 md:h-4/6 md:w-3/6 lg:w-2/6 lg:h-3/6 m-auto rounded-lg relative border-0 shadow-md p-5");
+  }
+
+  const OpenAccountHandler = () => {
+    if (accountPage == ''){
+      console.log('Opening Account')
+      setAccountPage(<Account onAccountClose={CloseAccountHandler} />);
+      setAccountClassName("w-full h-full sm:w-9/10 sm:h-4/5 md:h-4/6 md:w-3/6 lg:w-2/6 lg:h-3/6 m-auto rounded-lg relative border-0 shadow-md p-5 blur-sm")
+    } 
+  }
+
+  React.useEffect(()=>{
+
+  },[accountPage])
 
   return (
     <div className="flex flex-col place-content-center">
-      <div className="w-full h-full sm:w-9/10 sm:h-4/5 md:h-4/6 md:w-3/6 lg:w-2/6 lg:h-3/6 m-auto rounded-lg relative border-0 shadow-md p-5">
+      <div className={accountClassName}>
         <div className="grid grid-cols-1 gap-5">
-          <TaskDisplay tasks={allTasks} 
+          <TaskDisplay tasks={allTasks} username={username}
           onTaskDelete={TaskDeleteHandler} onTaskChecked={TaskCheckedHandler} onPriorityUpdate={PriorityUpdateHandler}> 
           </TaskDisplay>
           {newTask}
         </div>
         <div className="absolute bottom-2 right-2">
+          <div className="flex flex-row items-center">
             <button 
             onClick={NewTaskHandler}
             className="text-white font-bold py-2 px-4 rounded-full m-3
             transition ease-in-out delay-150 bg-black hover:scale-110 hover:bg-blue-500 duration-300">+
             </button>
+            <button 
+            onClick={OpenAccountHandler}
+            className="flex w-10 h-10 m-3 rounded-full focus:ring-2 ml-3 hover:scale-110 bg-gray-200 hover:bg-blue-400 duration-300 justify-center items-center">
+              <UserIcon className="w-5 h-5" />
+            </button>
+          </div>
         </div>
       </div>
+      {accountPage}
     </div>
   );
 }

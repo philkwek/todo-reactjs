@@ -41,11 +41,12 @@ const TaskItem = (props) => {
                 taskId: props.taskId,
                 taskDone: taskStatusNo
             };
+            console.log(taskStatusNo);
             props.onTaskChecked(taskCheckData);
         } else {
             firstRender.current = true;
         }
-    }, [props, taskStatusNo]);
+    }, [taskStatusNo]);
 
     const DeleteTaskHandler = () => { //deletes task from client by passing taskId to be deleted
         props.onTaskDelete(props.taskId);
@@ -119,7 +120,7 @@ const TaskItem = (props) => {
                     {taskBtnState}
                 </button>
                 <div>
-                    <select className="priority-list appearance-none h-8 border-0 text-xs text-center" 
+                    <select className="priority-list ml-1 appearance-none h-8 border-0 text-xs text-center" 
                     defaultValue={taskPriority} onChange={TaskPriorityHandler} onBlur={TaskUpdateHandler}>
                         <option value="0">!</option>
                         <option value="1">!!</option>

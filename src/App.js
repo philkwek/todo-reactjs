@@ -50,7 +50,7 @@ function App() {
         if (userId != uid){
           $.get("https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/user/" + uid, function(data, status){
             const userData = JSON.parse(data);
-            setUsername(userData.newUserData.username);
+            setUsername(userData.username);
             setUserId(uid);
           })
         };
@@ -159,7 +159,6 @@ function App() {
 
   const OpenAccountHandler = () => {
     if (accountPage == ''){
-      console.log('Opening Account')
       setAccountPage(<Account onAccountClose={CloseAccountHandler} username={username} />);
       setAccountClassName("w-full h-full sm:w-9/10 sm:h-4/5 md:h-4/6 md:w-3/6 lg:w-2/6 lg:h-3/6 m-auto rounded-lg relative border-0 shadow-md p-5 blur-sm")
     } 

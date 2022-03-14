@@ -33,7 +33,7 @@ export const CreateAccount = (email, password, username) => {
       $.ajax({
         url:"https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/user/" + user.uid,
         type:"POST",
-        data: {newUserData},
+        data: newUserData,
         success: function () {
             console.log("Account created");
             window.location.reload();

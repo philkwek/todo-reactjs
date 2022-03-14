@@ -37,9 +37,9 @@ const Account = (props) => {
                 <h1 className="font-semibold text-2xl text-center mb-5">Welcome to My Task!</h1>
                 <p className="text-center mb-10">Login or Sign up for an account to get started!</p>
                 <button onClick={LoginHandler}
-                className="w-1/3 rounded-xl p-3 mb-5 bg-gray-200 hover:bg-blue-500 duration-300 text-medium">Login</button>
+                className="w-1/3 rounded-xl p-3 mb-5 bg-gray-200 hover:bg-blue-500 hover:text-white duration-300 text-medium">Login</button>
                 <button onClick={SignUpHandler}
-                className="w-1/3 rounded-xl p-3 mb-5 bg-blue-500 hover:bg-gray-200 duration-300 text-white text-medium">Sign up</button>
+                className="w-1/3 rounded-xl p-3 mb-5 bg-blue-500 hover:bg-gray-200 hover:text-black duration-300 text-white text-medium">Sign up</button>
             </div>
         </Fade>,
         <AccountManager onAccountClose={CloseAccountHandler} />

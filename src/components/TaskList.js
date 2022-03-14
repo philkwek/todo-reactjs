@@ -2,7 +2,13 @@ import TaskItem from './TaskItem.js';
 import '../index.css';
 
 const TaskList = (props) => {
-    let taskContent = <h1>No Tasks!</h1>;
+    let taskContent;
+
+    if (props.username == ''){
+        taskContent = <h1>Log in or Create an Account to get started!</h1>;
+    } else {
+        taskContent = <h1>No Tasks!</h1>;
+    }
 
     const TaskCheckedHandler = (event) => {
         props.onTaskChecked(event);

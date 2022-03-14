@@ -1,4 +1,6 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
 import $ from 'jquery';
 import './index.css';
 import TaskDisplay from './components/TaskDisplay.js'
@@ -34,16 +36,39 @@ const testData = [
   }
 ];
 
+const auth = getAuth();
+
 function App() {
+  const [userId, setUserId] = useState('');
+  const [username, setUsername] = useState('');
+
+  //function ensures userId & username is always up to date with current user
+  useEffect(() => { //updates userId state on auth change
+    onAuthStateChanged(auth, (user) => { //gets user's uid on sign in or sign up
+      if (user) {
+        const uid = user.uid;
+        if (userId != uid){
+          $.get("https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/user/" + uid, function(data, status){
+            const userData = JSON.parse(data);
+            setUsername(userData.newUserData.username);
+            setUserId(uid);
+          })
+        };
+      } else {
+        setUsername('');
+        setUserId('');
+      }
+    });
+  })
+
   const [newTask, setNewTask] = useState('');
   const [allTasks, setAllTasks] = useState('');
 
-  const [username, setUsername] = useState('');
   const [accountPage, setAccountPage] = useState('');
   const [accountClassName, setAccountClassName] = useState("w-full h-full sm:w-9/10 sm:h-4/5 md:h-4/6 md:w-3/6 lg:w-2/6 lg:h-3/6 m-auto rounded-lg relative border-0 shadow-md p-5")
 
-  if (allTasks === ''){ //gets tasks from site
-    $.get("https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/tasks", function(data, status){
+  if (allTasks === '' && userId != ''){ //gets tasks from site
+    $.get("https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/tasks/" + userId, function(data, status){
       let taskData = JSON.parse(data);
 
       const sortedData = SortTasks(taskData);
@@ -91,7 +116,7 @@ function App() {
   };
 
   const NewTaskHandler = () => {
-    setNewTask(<TaskInput closeNewTask={CloseTaskHandler} onSaveTask={SaveTaskHandler}/>)
+    setNewTask(<TaskInput closeNewTask={CloseTaskHandler} onSaveTask={SaveTaskHandler} userId={userId}/>)
   };
 
   const TaskCheckedHandler = (event) => { //updates task status
@@ -130,15 +155,15 @@ function App() {
   const CloseAccountHandler = () =>{ 
     setAccountPage('');
     setAccountClassName("w-full h-full sm:w-9/10 sm:h-4/5 md:h-4/6 md:w-3/6 lg:w-2/6 lg:h-3/6 m-auto rounded-lg relative border-0 shadow-md p-5");
-  }
+  };
 
   const OpenAccountHandler = () => {
     if (accountPage == ''){
       console.log('Opening Account')
-      setAccountPage(<Account onAccountClose={CloseAccountHandler} />);
+      setAccountPage(<Account onAccountClose={CloseAccountHandler} username={username} />);
       setAccountClassName("w-full h-full sm:w-9/10 sm:h-4/5 md:h-4/6 md:w-3/6 lg:w-2/6 lg:h-3/6 m-auto rounded-lg relative border-0 shadow-md p-5 blur-sm")
     } 
-  }
+  };
 
   React.useEffect(()=>{
 
@@ -148,7 +173,7 @@ function App() {
     <div className="flex flex-col place-content-center">
       <div className={accountClassName}>
         <div className="grid grid-cols-1 gap-5">
-          <TaskDisplay tasks={allTasks} username={username}
+          <TaskDisplay tasks={allTasks} username={username} userId={userId}
           onTaskDelete={TaskDeleteHandler} onTaskChecked={TaskCheckedHandler} onPriorityUpdate={PriorityUpdateHandler}> 
           </TaskDisplay>
           {newTask}

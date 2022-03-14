@@ -1,37 +1,32 @@
 import React, {useState} from 'react';
 import Fade from 'react-reveal/Fade';
 import {XIcon} from '@heroicons/react/solid'
-import { CreateAccount } from '../service/firebase.js';
+import { LoginAccount } from '../service/firebase.js';
 
-const Signup = (props) => {
-    const [username, setUsername] = useState('');
+const Login = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const CloseAccountHandler = () => {
         props.onAccountClose();
-    }
-
-    const UsernameChangeHandler = (username) => {
-        setUsername(username.target.value);
-    }
+    };
 
     const EmailChangeHandler = (email) =>{
         setEmail(email.target.value);
-    }
+    };
 
     const PasswordChangeHandler = (password) => {
         setPassword(password.target.value);
-    }
+    };
     
-    const SignUpHandler = (data) => {
+    const LoginHandler = (data) => {
         data.preventDefault();
 
         //Create account with database
-        if (email != '' && password != '' && username != ''){
-            CreateAccount(email, password, username);
+        if (email != '' && password != ''){
+            LoginAccount(email, password);
         }
-    }
+    };
 
     return (
         <Fade>
@@ -42,13 +37,9 @@ const Signup = (props) => {
                         <XIcon className="w-5 h-5"/>
                     </button>
                 </div>
-                <form onSubmit={SignUpHandler}> 
-                    <h1 className="font-medium text-2xl">Sign up</h1>
-                    <p className="my-4 opacity-70">Sign up to start using My Tasks!</p>
+                <form onSubmit={LoginHandler}> 
+                    <h1 className="font-medium text-2xl">Login Account</h1>
                     <hr className="my-6" />
-                    <label className="uppercase text-sm font-bold opacity-70">Username</label>
-                    <input type="text" onChange={UsernameChangeHandler}
-                    className="p-3 mt-2 mb-4 w-full bg-slate-200 rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none" />
                     <label className="uppercase text-sm font-bold opacity-70">Email</label>
                     <input type="text" onChange={EmailChangeHandler}
                     className="p-3 mt-2 mb-4 w-full bg-slate-200 rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none" />
@@ -56,7 +47,7 @@ const Signup = (props) => {
                     <input type="password" onChange={PasswordChangeHandler}
                     className="p-3 mt-2 mb-4 w-full bg-slate-200 rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none" />
                     <button type="submit" className="bg-gray-200 rounded-md p-2 pl-3 pr-3 mt-2 hover:bg-blue-300 duration-300 focus:ring-2 focus:ring-blue-300">
-                        Create Account
+                        Login
                     </button>
                 </form>
             </div>
@@ -64,4 +55,4 @@ const Signup = (props) => {
     )
 };
 
-export default Signup;
+export default Login;

@@ -30,9 +30,10 @@ const TaskDisplay = (props) => {
 
     return (
         <div>
-            <TaskHeader onTaskFilter={TaskFilterHandler} tasks={originalData} />
+            <TaskHeader onTaskFilter={TaskFilterHandler} tasks={originalData} username={props.username}/>
             <div className="flex flex-row items-center mt-5">
-                <TaskList onTaskDelete={TaskDeleteHandler} onTaskChecked={TaskCheckHandler} onPriorityUpdate={PriorityUpdateHandler}
+                <TaskList username={props.username}
+                onTaskDelete={TaskDeleteHandler} onTaskChecked={TaskCheckHandler} onPriorityUpdate={PriorityUpdateHandler}
                 tasks={allTasks} />
             </div>
         </div>

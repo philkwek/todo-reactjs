@@ -3,25 +3,28 @@ import Fade from 'react-reveal/Fade';
 import { getAuth } from "firebase/auth";
 import {XIcon} from '@heroicons/react/solid';
 import { LogoutAccount } from '../service/firebase.js';
+import AddFriend from './AddFriend.js';
 
 const AccountManager = (props) =>{
+
+    const [addFriend, setAddFriend] = useState('');
 
     const CloseAccountHandler = () => {
         props.onAccountClose();
     };
 
-    const LoginHandler = () => {
-        //setAccountDiv(accountState[1]);
-    };
-
-    const SignUpHandler = () => {
-        //setAccountDiv(accountState[0]);
-    };
-
     const LogoutHandler = () => {
         LogoutAccount();
         window.location.reload();
-    }
+    };
+
+    const OpenFriendHandler = () => {
+        setAddFriend(<AddFriend onFriendClose={CloseFriendHandler} />);
+    };
+
+    const CloseFriendHandler = () => {
+        setAddFriend('');
+    };
 
     return(
     <Fade>
@@ -34,10 +37,11 @@ const AccountManager = (props) =>{
             </div>
             <h1 className="font-semibold text-2xl text-center mb-10">Account Management</h1>
             <button onClick={LogoutHandler}
-            className="w-1/3 rounded-xl p-3 mb-5 bg-gray-200 hover:bg-blue-500 duration-300 text-medium">Logout</button>
-            {/* <button onClick={}
-            className="w-1/3 rounded-xl p-3 mb-5 bg-blue-500 text-white text-medium"></button> */}
+            className="w-1/3 rounded-xl p-3 mb-5 bg-gray-200 hover:bg-blue-500 hover:text-white duration-300 text-medium">Logout</button>
+            <button onClick={OpenFriendHandler}
+            className="w-1/3 rounded-xl p-3 mb-5 bg-gray-200 hover:bg-blue-500 hover:text-white duration-300 text-medium">Add Friend</button>
         </div>
+        {addFriend}
     </Fade>
     )
 }

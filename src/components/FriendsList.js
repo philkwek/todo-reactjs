@@ -19,10 +19,14 @@ const FriendsList = (props) => {
         });
     };
 
+    const OpenFriendTasks = (data) => {
+        props.onOpenFriend(data);
+    }
+
     useEffect(()=>{
         if (friends.length > 0){
             const friendsMapped = friends.map(data =>
-            <FriendsItem username={data.username} friendId={data.id} key={data.id}/>)
+            <FriendsItem username={data.username} friendId={data.id} key={data.id} onOpenFriend={OpenFriendTasks}/>)
             setFriendContent(friendsMapped);
         };
     },[friends]);

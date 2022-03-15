@@ -8,6 +8,7 @@ import TaskInput from './components/TaskInput.js';
 import TaskHeader from './components/TaskHeader.js';
 import Account from './components/Account.js';
 import FriendsPage from './components/FriendsPage.js';
+import FriendsTasks from './components/FriendsTasks.js';
 import {UserIcon, UserGroupIcon} from '@heroicons/react/solid'
 
 const testData = [
@@ -70,6 +71,7 @@ function App() {
   const [accountClassName, setAccountClassName] = useState("w-full h-full sm:w-9/10 sm:h-4/5 md:h-4/6 md:w-3/6 lg:w-2/6 lg:h-3/6 m-auto rounded-lg relative border-0 shadow-md p-5")
 
   const [friendsPage, setFriendsPage] = useState('');
+  const [friendTaskPage, setFriendTaskPage] = useState('');
 
   if (allTasks === '' && userId != '' && privateTask == false){ //gets tasks from site on first setup
     if (privateTask){
@@ -187,9 +189,18 @@ function App() {
     setAccountClassName("w-full h-full sm:w-9/10 sm:h-4/5 md:h-4/6 md:w-3/6 lg:w-2/6 lg:h-3/6 m-auto rounded-lg relative border-0 shadow-md p-5");
   };
 
+  const OpenFriendTask = (data) => {
+    console.log(data);
+    setFriendTaskPage(<FriendsTasks friendData={data} onCloseFriendTasks={CloseFriendTask} />);
+  };
+
+  const CloseFriendTask = () => {
+    setFriendTaskPage('');
+  };
+
   const OpenFriendHandler = () => {
     if (friendsPage ==''){
-      setFriendsPage(<FriendsPage onFriendsClose={CloseFriendsHandler} userId={userId}/>)
+      setFriendsPage(<FriendsPage onFriendsClose={CloseFriendsHandler} userId={userId} onFriendTask={OpenFriendTask}/>)
       setAccountClassName("w-full h-full sm:w-9/10 sm:h-4/5 md:h-4/6 md:w-3/6 lg:w-2/6 lg:h-3/6 m-auto rounded-lg relative border-0 shadow-md p-5 blur-sm");
     }
   };
@@ -207,7 +218,7 @@ function App() {
     <div className="flex flex-col place-content-center">
       <div className={accountClassName}>
         <div className="grid grid-cols-1 gap-5">
-          <TaskDisplay tasks={allTasks} username={username} userId={userId}
+          <TaskDisplay tasks={allTasks} username={username} userId={userId} taskPrivate={privateTask}
           onTaskDelete={TaskDeleteHandler} onPrivate={PrivateTaskHandler}> 
           </TaskDisplay>
           {newTask}
@@ -234,6 +245,7 @@ function App() {
       </div>
       {accountPage}
       {friendsPage}
+      {friendTaskPage}
     </div>
   );
 }

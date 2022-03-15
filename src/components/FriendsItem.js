@@ -6,7 +6,11 @@ import { data } from 'autoprefixer';
 const FriendsItem = (props) => {
 
     const OpenFriendTasks = () =>{
-        console.log("Open " + props.username)
+        let friendData = {
+            id: props.friendId,
+            username: props.username
+        }
+        props.onOpenFriend(friendData);
     }
 
     return(

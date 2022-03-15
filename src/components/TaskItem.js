@@ -12,6 +12,7 @@ const btnStates = [
 ]
 
 const TaskItem = (props) => {
+    const taskPrivate = props.taskPrivate;
     const firstRender = useRef(false);
 
     const [taskMenuState, setTaskMenuState] = useState('');
@@ -43,14 +44,26 @@ const TaskItem = (props) => {
 
     useEffect(() => {
         if (firstRender.current){
-            $.ajax({
-                url:"https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/tasks/" + props.taskId,
-                type:"PUT",
-                data: {
-                taskStatus: taskStatusNo
-                },
-                success: function () {console.log("Put success")}
-            });
+            if (taskPrivate){
+                $.ajax({
+                    url:"https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/tasks/privateTasks/"
+                    + props.userId + '/' + props.taskId,
+                    type:"PUT",
+                    data: {
+                    taskStatus: taskStatusNo
+                    },
+                    success: function () {console.log("Put success")}
+                });
+            } else {
+                $.ajax({
+                    url:"https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/tasks/" + props.taskId,
+                    type:"PUT",
+                    data: {
+                    taskStatus: taskStatusNo
+                    },
+                    success: function () {console.log("Put success")}
+                });
+            }
         } else {
             firstRender.current = true;
         }
@@ -69,14 +82,26 @@ const TaskItem = (props) => {
     };
 
     useEffect(()=> { //updates task date
-        $.ajax({
-            url:"https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/tasks/" + props.taskId,
-            type:"PUT",
-            data: {
-              taskDate: taskDate
-            },
-            success: function () {console.log("Put success")}
-          });
+        if (taskPrivate){
+            $.ajax({
+                url:"https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/tasks/privateTasks/"
+                + props.userId + '/' + props.taskId,
+                type:"PUT",
+                data: {
+                  taskDate: taskDate
+                },
+                success: function () {console.log("Put success")}
+            });
+        } else {
+            $.ajax({
+                url:"https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/tasks/" + props.taskId,
+                type:"PUT",
+                data: {
+                  taskDate: taskDate
+                },
+                success: function () {console.log("Put success")}
+            });
+        }
     },[taskDate]);
 
     const ToggleTaskMenu = () => { //toggles delete todo button
@@ -112,16 +137,24 @@ const TaskItem = (props) => {
             };
 
             //updates server
-            $.ajax({
-            url:
-                "https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/tasks/" +
-                props.taskId,
-            type: "PUT",
-            data: newData,
-            success: function () {
-                console.log("Update success");
-            },
-            });
+            if (taskPrivate){
+                $.ajax({
+                    url:"https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/tasks/privateTasks/"
+                    + props.userId + '/' + props.taskId,
+                    type: "PUT",
+                    data: newData,
+                    success: function () {
+                        console.log("Update success");
+                    },})
+            } else {
+                $.ajax({
+                    url:"https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/tasks/" + props.taskId,
+                    type: "PUT",
+                    data: newData,
+                    success: function () {
+                        console.log("Update success");
+                    },})
+            }
 
             newData = {
             ...newData,

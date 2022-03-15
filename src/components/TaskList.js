@@ -24,7 +24,7 @@ const TaskList = (props) => {
             let key = 0;
             taskContent = props.tasks.map(data =>
             <TaskItem onDateUpdate={DateUpdateHandler}
-            onTaskDelete={TaskDeleteHandler}
+            onTaskDelete={TaskDeleteHandler} taskPrivate={props.taskPrivate} userId={props.userId}
             key={data.id} taskPriority={data.taskPriority} taskStatus ={data.taskStatus} taskDate={data.taskDate}
             taskId = {data.id} taskName = {data.taskName} taskDescription = {data.taskDescription}></TaskItem>)
         }

@@ -33,7 +33,7 @@ const TaskDisplay = (props) => {
             <TaskHeader onTaskFilter={TaskFilterHandler} onPrivate={PrivateTasksHandler}
              tasks={originalData} username={props.username}/>
             <div className="flex flex-row items-center mt-5">
-                <TaskList username={props.username}
+                <TaskList username={props.username} taskPrivate={props.taskPrivate} userId={props.userId}
                 onTaskDelete={TaskDeleteHandler} onDateUpdate={DateUpdateHandler}
                 tasks={allTasks} />
             </div>

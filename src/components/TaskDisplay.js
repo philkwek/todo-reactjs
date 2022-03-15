@@ -24,9 +24,14 @@ const TaskDisplay = (props) => {
         props.onDateUpdate(date);
     };
 
+    const PrivateTasksHandler = (data) => {
+        props.onPrivate(data);
+    }
+
     return (
         <div>
-            <TaskHeader onTaskFilter={TaskFilterHandler} tasks={originalData} username={props.username}/>
+            <TaskHeader onTaskFilter={TaskFilterHandler} onPrivate={PrivateTasksHandler}
+             tasks={originalData} username={props.username}/>
             <div className="flex flex-row items-center mt-5">
                 <TaskList username={props.username}
                 onTaskDelete={TaskDeleteHandler} onDateUpdate={DateUpdateHandler}

@@ -42,6 +42,7 @@ const auth = getAuth();
 function App() {
   const [userId, setUserId] = useState('');
   const [username, setUsername] = useState('');
+  const [privateTask, setPrivateTask] = useState(false);
 
   //function ensures userId & username is always up to date with current user
   useEffect(() => { //updates userId state on auth change
@@ -70,15 +71,45 @@ function App() {
 
   const [friendsPage, setFriendsPage] = useState('');
 
-  if (allTasks === '' && userId != ''){ //gets tasks from site
-    $.get("https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/tasks/" + userId, function(data, status){
-      let taskData = JSON.parse(data);
-
-      const sortedData = SortTasks(taskData);
-
-      setAllTasks(sortedData);
-    });
+  if (allTasks === '' && userId != '' && privateTask == false){ //gets tasks from site on first setup
+    if (privateTask){
+      $.get("https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/tasks/privateTasks/" + userId, function(data, status){
+        let taskData = JSON.parse(data);
+  
+        const sortedData = SortTasks(taskData);
+  
+        setAllTasks(sortedData);
+      });
+    } else {
+      $.get("https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/tasks/" + userId, function(data, status){
+        let taskData = JSON.parse(data);
+  
+        const sortedData = SortTasks(taskData);
+  
+        setAllTasks(sortedData);
+      });
+    }
   };
+
+  useEffect(()=>{ //switches mode of task list from private to public
+    if (privateTask){
+      $.get("https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/tasks/privateTasks/" + userId, function(data, status){
+        let taskData = JSON.parse(data);
+  
+        const sortedData = SortTasks(taskData);
+  
+        setAllTasks(sortedData);
+      });
+    } else {
+      $.get("https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/tasks/" + userId, function(data, status){
+        let taskData = JSON.parse(data);
+  
+        const sortedData = SortTasks(taskData);
+  
+        setAllTasks(sortedData);
+      });
+    }
+  }, [privateTask])
 
   const SortTasks = (tasks) => {
     tasks.sort(function(a, b){ //sorts list by order of priority
@@ -119,7 +150,7 @@ function App() {
   };
 
   const NewTaskHandler = () => {
-    setNewTask(<TaskInput closeNewTask={CloseTaskHandler} onSaveTask={SaveTaskHandler} userId={userId}/>)
+    setNewTask(<TaskInput privateStatus={privateTask} closeNewTask={CloseTaskHandler} onSaveTask={SaveTaskHandler} userId={userId}/>)
   };
 
   const TaskDeleteHandler = (taskId) => {
@@ -163,6 +194,11 @@ function App() {
     }
   };
 
+  const PrivateTaskHandler = (data) => {
+    console.log(data);
+    setPrivateTask(data);
+  };
+
   React.useEffect(()=>{
 
   },[accountPage])
@@ -172,7 +208,7 @@ function App() {
       <div className={accountClassName}>
         <div className="grid grid-cols-1 gap-5">
           <TaskDisplay tasks={allTasks} username={username} userId={userId}
-          onTaskDelete={TaskDeleteHandler}> 
+          onTaskDelete={TaskDeleteHandler} onPrivate={PrivateTaskHandler}> 
           </TaskDisplay>
           {newTask}
         </div>

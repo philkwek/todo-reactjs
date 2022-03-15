@@ -13,7 +13,7 @@ const TaskHeader = (props) => {
 
     useEffect(()=>{
         setUsername(originalUsername);
-    });
+    },[originalUsername])
 
     const FilterListHandler = (event) => {
         let filter = event.target.value;
@@ -41,6 +41,16 @@ const TaskHeader = (props) => {
             setUsername(originalUsername);
         }
     }
+
+    useEffect(()=>{
+        console.log(username);
+        //Switch to private tasks
+        if (username == "Private"){
+            props.onPrivate(true);
+        } else {
+            props.onPrivate(false);
+        }
+    },[username])
 
     return (
     <div className="flex flex-row items-center">

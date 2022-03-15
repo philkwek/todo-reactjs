@@ -12,7 +12,6 @@ const FriendsList = (props) => {
 
     //get friends list
     if (friends == ''){
-        console.log(props.userId);
         $.get("https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/user/friends/" + props.userId,
         function(data, status){
             const friendList = JSON.parse(data);
@@ -24,7 +23,6 @@ const FriendsList = (props) => {
         if (friends.length > 0){
             const friendsMapped = friends.map(data =>
             <FriendsItem username={data.username} friendId={data.id} key={data.id}/>)
-            console.log(friends);
             setFriendContent(friendsMapped);
         };
     },[friends]);

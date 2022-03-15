@@ -7,7 +7,8 @@ import TaskDisplay from './components/TaskDisplay.js'
 import TaskInput from './components/TaskInput.js';
 import TaskHeader from './components/TaskHeader.js';
 import Account from './components/Account.js';
-import {UserIcon} from '@heroicons/react/solid'
+import FriendsPage from './components/FriendsPage.js';
+import {UserIcon, UserGroupIcon} from '@heroicons/react/solid'
 
 const testData = [
   {
@@ -66,6 +67,8 @@ function App() {
 
   const [accountPage, setAccountPage] = useState('');
   const [accountClassName, setAccountClassName] = useState("w-full h-full sm:w-9/10 sm:h-4/5 md:h-4/6 md:w-3/6 lg:w-2/6 lg:h-3/6 m-auto rounded-lg relative border-0 shadow-md p-5")
+
+  const [friendsPage, setFriendsPage] = useState('');
 
   if (allTasks === '' && userId != ''){ //gets tasks from site
     $.get("https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/tasks/" + userId, function(data, status){
@@ -148,6 +151,18 @@ function App() {
     } 
   };
 
+  const CloseFriendsHandler = () =>{ 
+    setFriendsPage('');
+    setAccountClassName("w-full h-full sm:w-9/10 sm:h-4/5 md:h-4/6 md:w-3/6 lg:w-2/6 lg:h-3/6 m-auto rounded-lg relative border-0 shadow-md p-5");
+  };
+
+  const OpenFriendHandler = () => {
+    if (friendsPage ==''){
+      setFriendsPage(<FriendsPage onFriendsClose={CloseFriendsHandler} userId={userId}/>)
+      setAccountClassName("w-full h-full sm:w-9/10 sm:h-4/5 md:h-4/6 md:w-3/6 lg:w-2/6 lg:h-3/6 m-auto rounded-lg relative border-0 shadow-md p-5 blur-sm");
+    }
+  };
+
   React.useEffect(()=>{
 
   },[accountPage])
@@ -169,6 +184,11 @@ function App() {
             transition ease-in-out delay-150 bg-black hover:scale-110 hover:bg-blue-500 duration-300">+
             </button>
             <button 
+            onClick={OpenFriendHandler}
+            className="flex w-10 h-10 m-3 rounded-full focus:ring-2 ml-3 hover:scale-110 bg-gray-200 hover:bg-blue-400 duration-300 justify-center items-center">
+              <UserGroupIcon className="w-5 h-5" />
+            </button>
+            <button 
             onClick={OpenAccountHandler}
             className="flex w-10 h-10 m-3 rounded-full focus:ring-2 ml-3 hover:scale-110 bg-gray-200 hover:bg-blue-400 duration-300 justify-center items-center">
               <UserIcon className="w-5 h-5" />
@@ -177,6 +197,7 @@ function App() {
         </div>
       </div>
       {accountPage}
+      {friendsPage}
     </div>
   );
 }

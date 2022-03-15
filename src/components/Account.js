@@ -53,14 +53,6 @@ const Account = (props) => {
     
     const [accountDiv, setAccountDiv] = useState(currentAccount);
 
-    // useEffect(()=>{
-    //     if(props.username == undefined || props.username == ''){
-    //         setAccountDiv(accountState[2]);
-    //     } else {
-    //         setAccountDiv(accountState[3]);
-    //     };
-    // })
-
     return(
     <div className="w-full sm:w-3/4 lg:w-1/2
     absolute bg-white rounded-lg drop-shadow-xl justify-self-center m-auto left-0 right-0">

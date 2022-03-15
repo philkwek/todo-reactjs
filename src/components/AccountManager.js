@@ -18,14 +18,6 @@ const AccountManager = (props) =>{
         window.location.reload();
     };
 
-    const OpenFriendHandler = () => {
-        setAddFriend(<AddFriend onFriendClose={CloseFriendHandler} />);
-    };
-
-    const CloseFriendHandler = () => {
-        setAddFriend('');
-    };
-
     return(
     <Fade>
         <div className="flex flex-col m-6 align-center justify-center items-center">
@@ -38,10 +30,7 @@ const AccountManager = (props) =>{
             <h1 className="font-semibold text-2xl text-center mb-10">Account Management</h1>
             <button onClick={LogoutHandler}
             className="w-1/3 rounded-xl p-3 mb-5 bg-gray-200 hover:bg-blue-500 hover:text-white duration-300 text-medium">Logout</button>
-            <button onClick={OpenFriendHandler}
-            className="w-1/3 rounded-xl p-3 mb-5 bg-gray-200 hover:bg-blue-500 hover:text-white duration-300 text-medium">Add Friend</button>
         </div>
-        {addFriend}
     </Fade>
     )
 }

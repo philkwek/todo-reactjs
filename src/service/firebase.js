@@ -73,3 +73,4 @@ export const LogoutAccount = () => {
     alert(errorCode + '\n' + errorMessage);
   })
 };
+

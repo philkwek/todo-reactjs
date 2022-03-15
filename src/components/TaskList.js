@@ -1,3 +1,4 @@
+import React,{useState, useEffect} from 'react';
 import TaskItem from './TaskItem.js';
 import '../index.css';
 
@@ -10,24 +11,21 @@ const TaskList = (props) => {
         taskContent = <h1>No Tasks!</h1>;
     }
 
-    const TaskCheckedHandler = (event) => {
-        props.onTaskChecked(event);
-    };
-
     const TaskDeleteHandler = (taskId) => {
         props.onTaskDelete(taskId);
     }
 
-    const PriorityUpdateHandler =  (data) => {
-        props.onPriorityUpdate(data);
+    const DateUpdateHandler = (date) => {
+        props.onDateUpdate(date);
     }
 
     if(props.tasks){
         if (props.tasks.length > 0){
             let key = 0;
             taskContent = props.tasks.map(data =>
-            <TaskItem onTaskChecked={TaskCheckedHandler} onTaskDelete={TaskDeleteHandler} onPriorityUpdate={PriorityUpdateHandler}
-            key={data.id} taskPriority={data.taskPriority} taskStatus ={data.taskStatus} 
+            <TaskItem onDateUpdate={DateUpdateHandler}
+            onTaskDelete={TaskDeleteHandler}
+            key={data.id} taskPriority={data.taskPriority} taskStatus ={data.taskStatus} taskDate={data.taskDate}
             taskId = {data.id} taskName = {data.taskName} taskDescription = {data.taskDescription}></TaskItem>)
         }
     };

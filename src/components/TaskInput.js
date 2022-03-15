@@ -27,7 +27,8 @@ const TaskInput = (props) => {
             taskDescription: enteredTaskDetails,
             taskStatus: 0,
             taskPriority: 0,
-            userId: props.userId
+            userId: props.userId,
+            taskDate: "0000-00-00",
         };
 
         $.post("https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/tasks", taskData, function(result){

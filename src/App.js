@@ -119,18 +119,6 @@ function App() {
     setNewTask(<TaskInput closeNewTask={CloseTaskHandler} onSaveTask={SaveTaskHandler} userId={userId}/>)
   };
 
-  const TaskCheckedHandler = (event) => { //updates task status
-    //updates server
-    $.ajax({
-      url:"https://us-central1-task-manager-api-4f9a8.cloudfunctions.net/tasks/" + event.taskId,
-      type:"PUT",
-      data: {
-        taskStatus: event.taskDone
-      },
-      success: function () {console.log("Put success")}
-    });
-  };
-
   const TaskDeleteHandler = (taskId) => {
     //delete task from client
     const newData = allTasks.filter(function(task){
@@ -147,10 +135,6 @@ function App() {
       success: function () {console.log("Delete success")}
     });
   }
-
-  const PriorityUpdateHandler = (data) => { 
-    //gives data of task and it's new priority
-  };
 
   const CloseAccountHandler = () =>{ 
     setAccountPage('');
@@ -173,7 +157,7 @@ function App() {
       <div className={accountClassName}>
         <div className="grid grid-cols-1 gap-5">
           <TaskDisplay tasks={allTasks} username={username} userId={userId}
-          onTaskDelete={TaskDeleteHandler} onTaskChecked={TaskCheckedHandler} onPriorityUpdate={PriorityUpdateHandler}> 
+          onTaskDelete={TaskDeleteHandler}> 
           </TaskDisplay>
           {newTask}
         </div>
